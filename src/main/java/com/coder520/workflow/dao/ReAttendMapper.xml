@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coder520.workflow.dao.ReAttendMapper" >
+  <resultMap id="BaseResultMap" type="com.coder520.workflow.entity.ReAttend" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="attend_id" property="attendId" jdbcType="BIGINT" />
+    <result column="attend_date" property="attendDate" jdbcType="DATE" />
+    <result column="re_attend_starter" property="reAttendStarter" jdbcType="VARCHAR" />
+    <result column="re_attend_eve" property="reAttendEve" jdbcType="TIME" />
+    <result column="re_attend_mor" property="reAttendMor" jdbcType="TIME" />
+    <result column="current_handler" property="currentHandler" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="comments" property="comments" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, attend_id, attend_date, re_attend_starter, re_attend_eve, re_attend_mor, current_handler, 
+    status, comments
+  </sql>
+
+  <select id="selectReAttendRecord" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from re_attend
+    where re_attend_starter = #{username}
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from re_attend
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from re_attend
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.coder520.workflow.entity.ReAttend" >
+    insert into re_attend (id, attend_id, attend_date, 
+      re_attend_starter, re_attend_eve, re_attend_mor, 
+      current_handler, status, comments
+      )
+    values (#{id,jdbcType=BIGINT}, #{attendId,jdbcType=BIGINT}, #{attendDate,jdbcType=DATE}, 
+      #{reAttendStarter,jdbcType=VARCHAR}, #{reAttendEve,jdbcType=TIME}, #{reAttendMor,jdbcType=TIME}, 
+      #{currentHandler,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{comments,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.coder520.workflow.entity.ReAttend" >
+    insert into re_attend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="attendId != null" >
+        attend_id,
+      </if>
+      <if test="attendDate != null" >
+        attend_date,
+      </if>
+      <if test="reAttendStarter != null" >
+        re_attend_starter,
+      </if>
+      <if test="reAttendEve != null" >
+        re_attend_eve,
+      </if>
+      <if test="reAttendMor != null" >
+        re_attend_mor,
+      </if>
+      <if test="currentHandler != null" >
+        current_handler,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="comments != null" >
+        comments,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="attendId != null" >
+        #{attendId,jdbcType=BIGINT},
+      </if>
+      <if test="attendDate != null" >
+        #{attendDate,jdbcType=DATE},
+      </if>
+      <if test="reAttendStarter != null" >
+        #{reAttendStarter,jdbcType=VARCHAR},
+      </if>
+      <if test="reAttendEve != null" >
+        #{reAttendEve,jdbcType=TIME},
+      </if>
+      <if test="reAttendMor != null" >
+        #{reAttendMor,jdbcType=TIME},
+      </if>
+      <if test="currentHandler != null" >
+        #{currentHandler,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="comments != null" >
+        #{comments,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.coder520.workflow.entity.ReAttend" >
+    update re_attend
+    <set >
+      <if test="attendId != null" >
+        attend_id = #{attendId,jdbcType=BIGINT},
+      </if>
+      <if test="attendDate != null" >
+        attend_date = #{attendDate,jdbcType=DATE},
+      </if>
+      <if test="reAttendStarter != null" >
+        re_attend_starter = #{reAttendStarter,jdbcType=VARCHAR},
+      </if>
+      <if test="reAttendEve != null" >
+        re_attend_eve = #{reAttendEve,jdbcType=TIME},
+      </if>
+      <if test="reAttendMor != null" >
+        re_attend_mor = #{reAttendMor,jdbcType=TIME},
+      </if>
+      <if test="currentHandler != null" >
+        current_handler = #{currentHandler,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="comments != null" >
+        comments = #{comments,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.coder520.workflow.entity.ReAttend" >
+    update re_attend
+    set attend_id = #{attendId,jdbcType=BIGINT},
+      attend_date = #{attendDate,jdbcType=DATE},
+      re_attend_starter = #{reAttendStarter,jdbcType=VARCHAR},
+      re_attend_eve = #{reAttendEve,jdbcType=TIME},
+      re_attend_mor = #{reAttendMor,jdbcType=TIME},
+      current_handler = #{currentHandler,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      comments = #{comments,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

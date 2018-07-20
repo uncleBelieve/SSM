@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context.xsd
+ http://www.springframework.org/schema/aop
+ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+ http://www.springframework.org/schema/mvc
+ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <!--开启切面编程自动代理-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!--包扫描-->
+    <context:component-scan base-package="com.coder520.*.controller">
+    </context:component-scan>
+
+    <!--阿里巴巴json支持-->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/><!---->
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <!--包扫描-->
+    <context:component-scan base-package="com.coder520.*.controller"/>
+
+
+    <!--开启注解扫描-->
+    <mvc:annotation-driven/>
+
+    <!--处理静态资源-->
+    <mvc:default-servlet-handler/>
+
+    <mvc:interceptors>
+        <bean class="com.coder520.common.interceptor.SessionInterceptor"/>
+    </mvc:interceptors>
+
+    <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/views"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">utf-8</prop>
+                <prop key="output.encoding">utf-8</prop>
+                <prop key="file.resource.loader.cache">false</prop>
+                <prop key="file.resource.loader.modificationCheckInterval">1</prop>
+                <prop key="velocimacro.library.autoreload">false</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="suffix" value=".vm"/>
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <property name="dateToolAttribute" value="date"/><!--日期函数名称-->
+    </bean>
+
+
+</beans>

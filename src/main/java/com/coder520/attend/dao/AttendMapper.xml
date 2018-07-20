@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coder520.attend.dao.AttendMapper" >
+  <resultMap id="BaseResultMap" type="com.coder520.attend.entity.Attend" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="attend_date" property="attendDate" jdbcType="DATE" />
+    <result column="attend_week" property="attendWeek" jdbcType="TINYINT" />
+    <result column="attend_morning" property="attendMorning" jdbcType="TIME" />
+    <result column="attend_evening" property="attendEvening" jdbcType="TIME" />
+    <result column="absence" property="absence" jdbcType="INTEGER" />
+    <result column="attend_status" property="attendStatus" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, attend_date, attend_week, attend_morning, attend_evening, absence, attend_status
+  </sql>
+  <select id="selectTodayAbsence" resultType="Long"  >
+    SELECT
+    u.id
+    FROM `user` u
+    WHERE u.id NOT IN (
+    SELECT
+    a.user_id
+    FROM attend a
+    WHERE a.attend_date = CURDATE()
+    )
+  </select>
+  <select id="selectTodayEveningAbsence" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from attend
+    where
+    attend_date= CURDATE()
+    AND attend_evening IS NULL
+    AND attend_status =1
+    AND attend_week NOT IN (6,7)
+  </select>
+  <select id="selectTodaySignRecord" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from attend
+    where user_id = #{userId}
+    AND attend_date= CURDATE()
+  </select>
+  <select id="countByCondition" resultType="int"  >
+    select
+    count(0)
+    from attend
+    where user_id = #{userId}
+    <if test="startDate != null and endDate != null" >
+      AND attend_date BETWEEN  #{startDate} AND  #{endDate}
+    </if>
+    <if test="attendStatus != null" >
+      AND  attend_status = #{attendStatus}
+    </if>
+  </select>
+  <select id="selectAttendPage" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from attend
+    where user_id = #{userId}
+    <if test="startDate !=null and endDate !=null" >
+      AND attend_date BETWEEN  #{startDate} AND  #{endDate}
+    </if>
+    <if test="attendStatus != null" >
+      AND  attend_status = #{attendStatus}
+    </if>
+    LIMIT  #{startRow} , #{pageSize}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from attend
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from attend
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="batchInsert" parameterType="list" >
+    insert into attend (user_id, attend_date,
+    attend_week, absence, attend_status)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.userId}, #{item.attendDate},#{item.attendWeek}, #{item.absence},#{item.attendStatus})
+    </foreach>
+  </insert>
+  <insert id="insert" parameterType="com.coder520.attend.entity.Attend" >
+    insert into attend (id, user_id, attend_date,
+    attend_week, attend_morning, attend_evening,
+    absence, attend_status)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{attendDate,jdbcType=DATE},
+    #{attendWeek,jdbcType=TINYINT}, #{attendMorn ing,jdbcType=TIME}, #{attendEvening,jdbcType=TIME},
+    #{absence,jdbcType=INTEGER}, #{attendStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.coder520.attend.entity.Attend" >
+    insert into attend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="attendDate != null" >
+        attend_date,
+      </if>
+      <if test="attendWeek != null" >
+        attend_week,
+      </if>
+      <if test="attendMorning != null" >
+        attend_morning,
+      </if>
+      <if test="attendEvening != null" >
+        attend_evening,
+      </if>
+      <if test="absence != null" >
+        absence,
+      </if>
+      <if test="attendStatus != null" >
+        attend_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="attendDate != null" >
+        #{attendDate,jdbcType=DATE},
+      </if>
+      <if test="attendWeek != null" >
+        #{attendWeek,jdbcType=TINYINT},
+      </if>
+      <if test="attendMorning != null" >
+        #{attendMorning,jdbcType=TIME},
+      </if>
+      <if test="attendEvening != null" >
+        #{attendEvening,jdbcType=TIME},
+      </if>
+      <if test="absence != null" >
+        #{absence,jdbcType=INTEGER},
+      </if>
+      <if test="attendStatus != null" >
+        #{attendStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.coder520.attend.entity.Attend" >
+    update attend
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="attendDate != null" >
+        attend_date = #{attendDate,jdbcType=DATE},
+      </if>
+      <if test="attendWeek != null" >
+        attend_week = #{attendWeek,jdbcType=TINYINT},
+      </if>
+      <if test="attendMorning != null" >
+        attend_morning = #{attendMorning,jdbcType=TIME},
+      </if>
+      <if test="attendEvening != null" >
+        attend_evening = #{attendEvening,jdbcType=TIME},
+      </if>
+      <if test="absence != null" >
+        absence = #{absence,jdbcType=INTEGER},
+      </if>
+      <if test="attendStatus != null" >
+        attend_status = #{attendStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.coder520.attend.entity.Attend" >
+    update attend
+    set user_id = #{userId,jdbcType=BIGINT},
+      attend_date = #{attendDate,jdbcType=DATE},
+      attend_week = #{attendWeek,jdbcType=TINYINT},
+      attend_morning = #{attendMorning,jdbcType=TIME},
+      attend_evening = #{attendEvening,jdbcType=TIME},
+      absence = #{absence,jdbcType=INTEGER},
+      attend_status = #{attendStatus,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

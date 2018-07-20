@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1498744195092" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <process id="re_attend" isClosed="false" isExecutable="true" name="补签工作流" processType="None">
+    <startEvent id="re_attend_start" name="补签启动"/>
+    <userTask activiti:exclusive="true" id="re_attend_active" name="用户补签"/>
+    <sequenceFlow id="_4" sourceRef="re_attend_start" targetRef="re_attend_active"/>
+    <userTask activiti:exclusive="true" id="re_attend_approve" name="组长审批"/>
+    <sequenceFlow id="_6" sourceRef="re_attend_active" targetRef="re_attend_approve"/>
+    <endEvent id="re_attend_end" name="补签结束"/>
+    <sequenceFlow id="_8" sourceRef="re_attend_approve" targetRef="re_attend_end"/>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#FFFFFF;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="re_attend">
+      <bpmndi:BPMNShape bpmnElement="re_attend_start" id="Shape-re_attend_start">
+        <omgdc:Bounds height="32.0" width="32.0" x="60.0" y="160.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="re_attend_active" id="Shape-re_attend_active">
+        <omgdc:Bounds height="55.0" width="85.0" x="165.0" y="180.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="re_attend_approve" id="Shape-re_attend_approve">
+        <omgdc:Bounds height="55.0" width="85.0" x="365.0" y="200.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="re_attend_end" id="Shape-re_attend_end">
+        <omgdc:Bounds height="32.0" width="32.0" x="525.0" y="215.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_4" id="BPMNEdge__4" sourceElement="_2" targetElement="_3">
+        <omgdi:waypoint x="92.0" y="176.0"/>
+        <omgdi:waypoint x="165.0" y="207.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="_3" targetElement="_5">
+        <omgdi:waypoint x="250.0" y="207.5"/>
+        <omgdi:waypoint x="365.0" y="227.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="_5" targetElement="_7">
+        <omgdi:waypoint x="450.0" y="227.5"/>
+        <omgdi:waypoint x="525.0" y="231.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
